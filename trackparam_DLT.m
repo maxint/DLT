@@ -40,9 +40,10 @@ clear all
 % dataPath = 'D:\Dropbox\dropbox\Tracking\data\';
 % dataPath = 'F:\dropbox\Tracking\data\';
 dataPath = 'e:\projects\object_tracking\data\datasets\';
-% title = '20131105_104041';
+title = '20131105_104041';
 % title = '20131102_140141';
-title = '20131105_105426';
+% title = '20131105_105426';
+% title = 'woman';
 
 switch (title)
 case 'davidin';  p = [158 106 62 78 0];
@@ -61,8 +62,8 @@ case 'singer1';  p = [100 200 100 300 0];
     opt = struct('numsample',1000, 'affsig',[4,4,.01,.00,.001,.0000]);
 case 'bolt';  p = [292 107 25 60 0];
     opt = struct('numsample',1000, 'affsig',[4,4,.005,.000,.001,.000]);
-case 'woman';  p = [222 165 35 95 0.0];
-    opt = struct('numsample',1000, 'affsig',[4,4,.005,.000,.001,.000]);               
+% case 'woman';  p = [222 165 35 95 0.0];
+%     opt = struct('numsample',1000, 'affsig',[4,4,.005,.000,.001,.000]);               
 case 'bird2';  p = [116 254 68 72 0.0]; % A bit unstable
     opt = struct('numsample',1000, 'affsig',[4,4,.005,.000,.001,.000]); 
 case 'surfer';  p = [286 152 32 35 0.0];
@@ -90,24 +91,7 @@ opt.condenssig = 0.01;
 opt.tmplsize = [32, 32];
 % Load data
 disp('Loading data...');
-fullPath = [dataPath, title, '\'];
-d = dir([fullPath, '*.jpg']);
-if size(d, 1) == 0
-    d = dir([fullPath, '*.png']);
-end
-if size(d, 1) == 0
-    d = dir([fullPath, '*.bmp']);
-end
-im = imread([fullPath, d(1).name]);
-data = zeros(size(im, 1), size(im, 2), size(d, 1));
-for i = 1 : size(d, 1)
-    im = imread([fullPath, d(i).name]);
-    if ndims(im) == 2
-        data(:, :, i) = im;
-    else
-        data(:, :, i) = rgb2gray(im);
-    end
-end
+data = loaddata([dataPath, title, '\']);
 
 paramOld = [p(1), p(2), p(3)/opt.tmplsize(2), p(5), p(4) /p(3) / (opt.tmplsize(1) / opt.tmplsize(2)), 0];
 param0 = affparam2mat(paramOld);

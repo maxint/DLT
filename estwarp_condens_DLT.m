@@ -21,14 +21,17 @@ else
 end
 
 t = nnff(nn, data', zeros(n, 1));
-confidence = t.a{6}';
+confidence = t.a{6}'; % get confidences after NN feed forward
 
 disp(max(confidence));
+% update NN when confidence is low
 if max(confidence) < 0.9
     param.update = true;
 else
     param.update = false;
 end
+
+% convert confidence and get the maximum one
 confidence = confidence - min(confidence);
 param.conf = exp(double(confidence) ./opt.condenssig)';
 param.conf = param.conf ./ sum(param.conf);

@@ -1,5 +1,5 @@
 function newNN = initDLT(tmpl, L)
-    load pretrain;
+    load pretrain; % load pretrain data
     global useGpu;
     newNN = nnsetup([1024 2560 1024 512 256 1]);
     for i = 1 : 4
@@ -15,6 +15,7 @@ function newNN = initDLT(tmpl, L)
     newNN.momentum = 0.5;
     opts.numepochs = 20;
     opts.batchsize = 10;
+%     opts.plot = 1;
     
     L(L == -1) = 0;
     

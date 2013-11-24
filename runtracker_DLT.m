@@ -46,7 +46,10 @@ nn = initDLT(tmpl, L);
 L = [];
 pos = tmpl.basis(:, 1 : opt.maxbasis);
 pos(:, opt.maxbasis + 1) = tmpl.basis(:, 1);
+
 opts.numepochs = 5 ;
+% opts.plot = 1;
+
 newNN.learningRate = 1e-2;
 for f = 1:size(data,3)  
   frame = double(data(:,:,f))/255;
@@ -57,6 +60,7 @@ for f = 1:size(data,3)
   % do update
   
   temp = warpimg(frame, param.est', opt.tmplsize);
+  % only sample the last 10 frame result and the first frame
   pos(:, mod(f - 1, opt.maxbasis) + 1) = temp(:);
   if  param.update
       opts.batchsize = 10;
